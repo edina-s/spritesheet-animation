@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example</title>
+
+    <style>
+        #my-canvas {
+            border: #cacaca 1px solid;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="my-canvas" width="400" height="300">
+        Your web browser does not suport canvas element
+    </canvas>
+
+    <script>
+
+
+        window.onload = init;
+        const NO_SPRITES = 9;
+        let spriteIndex = 0;
+        let speed = 0.125;
+
+
+        function init() {
+            let myCanvas = document.getElementById("my-canvas");
+
+            if (myCanvas.getContext) {
+                let ctx = myCanvas.getContext('2d');
+
+                let spritesheet = new Image();
+
+                spritesheet.addEventListener('load', function () {
+                    update(ctx, spritesheet);
+                }, false);
+
+                spritesheet.src = "runner.png";
+
+            } else {
+                alert("Canvas is not suported");
+            }
+        }
+
+        function update(ctx, spritesheet) {
+            ctx.clearRect(0, 0, 400, 300);
+
+            ctx.drawImage(spritesheet, Math.floor(spriteIndex) * (spritesheet.width / NO_SPRITES), 0, spritesheet.width / NO_SPRITES, spritesheet.height, 25, 25, spritesheet.width / NO_SPRITES, spritesheet.height);
+            if(spriteIndex < NO_SPRITES) {
+                spriteIndex = spriteIndex + speed;
+            } else {
+                spriteIndex = 2;
+            }
+            
+
+            requestAnimationFrame(function() {
+                update(ctx, spritesheet);
+            });
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
